@@ -47,8 +47,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ListTile(
               leading: Icon(Icons.logout),
               title: Text('Logout', style: TextStyle(fontSize: 16.sp)),
-              onTap: () {
-                authService.logout(context);
+              onTap: () async{
+                await showDialog(
+                  context: context, 
+                  builder: (context) => AlertDialog(
+                    backgroundColor: Colors.white,
+                  title: const Text('Logout'),
+                  content: const Text('Are you sure you want to logout?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Navigator.pop(context);
+                        await authService.logout(context);                        
+                      },
+                      child: const Text('Logout'),
+                    ),
+                  ]));
+            
               },
             ),
           ],
